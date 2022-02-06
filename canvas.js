@@ -1,15 +1,15 @@
 const gameBoard = document.getElementById('canvas');
 const ctx = gameBoard.getContext('2d');
 const start = document.getElementById('startGame');
-
+const reset = document.getElementById('reset');
 
 const squareSize = 50;
 const targetSize = 20;
 
 let score = 0;
-let time = 3;
+let time = 30;
 let total = document.getElementById('p');
-
+let gameIsover = false;
 //--MOVE--
 let squareX = 50;
 let squareY = 100;
@@ -63,8 +63,7 @@ function startGame() {
     });
   }
   start.addEventListener('click', startGame);
-  //startGame();
-
+ 
 
   //--draw---
   function draw() {
@@ -90,7 +89,10 @@ function startGame() {
 
   //---move Square--
   function moveSquare(){
-    if(dirUp){
+    if(gameIsover === true){
+      return;
+    }else{
+      if(dirUp){
         squareY -= moveSpeed;
     }
     if(dirDown){
@@ -117,6 +119,7 @@ function startGame() {
     }
     draw();
     requestAnimationFrame(moveSquare);
+    }
   }
 
   //-- get target random x-y
@@ -145,19 +148,23 @@ function startGame() {
       const caseX = squareRight > targetRight && squareX < targetX;
       return caseY && caseX;
   }
-
-  
+function page(){
+  window.location.reload()
+}
+reset.addEventListener('click', page);
 ///////////////
 function gameOver(){
-    const timeOut = setInterval(function(){
-        time--;
-        if (time===0){
-            clearInterval(timeOut);
-            total.classList.add('open');
-            total.innerHTML += `Game over! total score = ${score}`;
-
-        }
-    }, 1000);
+  total.classList.add('hide');
+  const timeOut = setInterval(function(){
+    time--;
+    if (time===0){
+      clearInterval(timeOut);
+      total.classList.add('open');
+      total.innerHTML += `Game over! total score = ${score}`;
+      reset.classList.add('reset-open');
+      gameIsover = true;
+    }
+  }, 1000);
 }
 
 

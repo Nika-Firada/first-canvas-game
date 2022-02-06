@@ -19,3 +19,14 @@
     left: 100px;
     
 }
+#reset{
+    position: absolute;
+    top: 175px;
+    left: 170px;
+}
+.reset-hide{
+    display: none;
+}
+.reset-open{
+    display: block;
+}
